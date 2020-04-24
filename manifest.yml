@@ -1,0 +1,8 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: Covid_19SFHBotDemo123
+  host: Covid_19SFHBotDemo123
+  disk_quota: 1024M
