@@ -32,9 +32,11 @@ var ConversationPanel = (function () {
   // Initialize the module
   function init() {
     chatUpdateSetup();
-    // Api.getSessionId('',function() {
-    //   Api.sendRequest('', 'en','');
-    // });
+    Api.updateBot('Covid_Bot_1');
+    Api.getSessionId(function() {
+      Api.sendRequest('', 'en');
+    });
+    Api.getCasesCount();
     // getlang();
     setupInputBox();
   }
@@ -133,7 +135,7 @@ var ConversationPanel = (function () {
     if ((newPayload.output && newPayload.output.generic) || newPayload.input) {
       // Create new message generic elements
       var responses = buildMessageDomElements(newPayload, isUser);
-      var chatBoxElement = document.querySelector(".chat");//.from-user //.from-watson
+      var chatBoxElement = document.querySelector(".chat.active-chat");//.from-user //.from-watson
       var previousLatest = chatBoxElement.querySelectorAll((isUser ? settings.selectors.fromUser : settings.selectors.fromWatson) +
         settings.selectors.latest);
       // Previous "latest" message is no longer the most recent
@@ -152,10 +154,9 @@ var ConversationPanel = (function () {
       var res = responses[index];
       if (res.type !== 'pause') {
         var currentDiv = getDivObject(res, isUser, isTop);
-        $('.chat.active-chat').append(currentDiv);
+        chatBoxElement.append(currentDiv);
         // Class to start fade in animation
         isUser ? currentDiv.classList.add('me') : currentDiv.classList.add('you');
-        // $('.chat').append('<div class="bubble me">' + $('#m').val() + '</div>');
         // Move chat to the most recent messages when new messages are added
         setTimeout(function () {
           // wait a sec before scrolling
@@ -360,13 +361,13 @@ var ConversationPanel = (function () {
     if (lastUpdatedTime[botName]) {
       var diff = (new Date().getTime() - lastUpdatedTime[botName].getTime()) / 1000;
       diff /= 60;
-      if (Math.abs(Math.round(diff)) > 1) {
-        setTimeout(function () {
+      if (Math.abs(Math.round(diff)) > 3) {
           Api.updateBot(botName);
+          setTimeout(function () {
           Api.getSessionId(function () {
             Api.sendRequest("", "en");
           });
-        }, 2000);
+        }, 3000);
       } else {
         Api.updateBot(botName);
       }

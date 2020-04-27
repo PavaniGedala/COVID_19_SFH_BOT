@@ -14,6 +14,7 @@ var Api = (function() {
   return {
     sendRequest: sendRequest,
     getSessionId: getSessionId,
+    getCasesCount: getCasesCount,
     updateBot: updateBot,
 
     // The request/response getters/setters are defined here to prevent internal methods
@@ -54,7 +55,34 @@ var Api = (function() {
     };
     http.send();
   }
+  function addCommas(nStr){
+    nStr += '';
+    var x = nStr.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+     x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+   }
 
+  function getCasesCount() {
+    var http = new XMLHttpRequest();
+    http.open('GET', "https://corona.lmao.ninja/v2/all", true);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.onreadystatechange = function () {
+      if (http.readyState === XMLHttpRequest.DONE) {
+        let res = JSON.parse(http.response);
+        console.log(res);
+        var title = document.getElementsByClassName("title");
+        title[0].innerHTML = "Active Cases : "+addCommas(res.active);
+        title[1].innerHTML = "Recovered : "+addCommas(res.recovered);
+        title[2].innerHTML = "Deaths : "+addCommas(res.deaths);
+      }
+    };
+    http.send();
+  }
 
   // Send a message request to the server
   function sendRequest(text, lang) {

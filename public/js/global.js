@@ -2,12 +2,12 @@
 /* global ConversationPanel: true, PayloadPanel: true*/
 /* eslint no-unused-vars: "off" */
 
-// Other JS files required to be loaded first: apis.js, conversation.js, payload.js
+// Other JS files required to be loaded first: apis.js, conversation.js
 $('.chat[data-chat=person1]').addClass('active-chat');
 $('.person[data-chat=person1]').addClass('active');
-$('.chat[data-chat=person2]').addClass('active-chat');
+//$('.chat[data-chat=person2]').addClass('active-chat');
 // $('.person[data-chat=person2]').addClass('active');
-$('.chat[data-chat=person3]').addClass('active-chat');
+//$('.chat[data-chat=person3]').addClass('active-chat');
 // $('.person[data-chat=person3]').addClass('active');
 
 $('.left .person').mousedown(function(){
@@ -23,7 +23,7 @@ $('.left .person').mousedown(function(){
         $('.chat[data-chat = '+findChat+']').addClass('active-chat');
     }
 });
-(function() {
+(function() { //https://drive.google.com/file/d/1K04afmAILU_mIMTyQ9OjjnfblGv9yxjv/view?usp=sharing
   // Initialize all modules
   ConversationPanel.init();
 })();
